@@ -1,12 +1,20 @@
 package com.scaler.NovModuleProject.service;
 
 import com.scaler.NovModuleProject.models.Product;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
 public class FakeStoreProductService implements ProductService {
+
+    private RestTemplate restTemplate;
+
+    public FakeStoreProductService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
     @Override
-    public Product getProduct(Long id) {
+    public Product getSingleProduct(Long id) {
         return null;
     }
 
