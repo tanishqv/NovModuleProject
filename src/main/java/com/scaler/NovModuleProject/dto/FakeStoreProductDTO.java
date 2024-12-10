@@ -11,6 +11,7 @@ public class FakeStoreProductDTO {
     private Double price;
     private String description;
     private String image;
+    private String category;
 
     // Map the FakeStore Product to Product model
     public Product getProduct() {
@@ -21,9 +22,9 @@ public class FakeStoreProductDTO {
         product.setDescription(description);
         product.setImageUrl(image);
 
-        Category category = new Category();
-        category.setTitle(category);
-        product.setCategory(category);
+        Category cat = new Category();
+        cat.setTitle(category);
+        product.setCategory(cat);
         return product;
     }
 
