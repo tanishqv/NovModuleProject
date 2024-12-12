@@ -17,7 +17,16 @@ public class ProductController {
 
     // CRUD Operations
     @PostMapping("/product")
-    public void createProduct(Product product) {}
+    public Product createProduct(@RequestBody Product product) {
+        return productService.createProduct(
+                product.getId(),
+                product.getTitle(),
+                product.getPrice(),
+                product.getDescription(),
+                product.getImageUrl(),
+                product.getCategory().getTitle()
+        );
+    }
 
     @GetMapping("/product/{id}")
     public Product getProductById(@PathVariable("id") Long id) {

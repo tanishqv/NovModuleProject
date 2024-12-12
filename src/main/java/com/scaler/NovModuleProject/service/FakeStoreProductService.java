@@ -18,9 +18,12 @@ public class FakeStoreProductService implements ProductService {
 
     @Override
     public Product getSingleProduct(Long id) {
-	FakeStoreProductDTO fakeStoreProductDTO = restTemplate.getForObject("https://fakestoreapi.com/products/" + id, FakeStoreProductDTO.class);
-	System.out.println("Object: " + fakeStoreProductDTO);
-	return fakeStoreProductDTO.getProduct();
+        FakeStoreProductDTO fakeStoreProductDTO = restTemplate.getForObject(
+                "https://fakestoreapi.com/products/" + id,
+                FakeStoreProductDTO.class
+        );
+        System.out.println("Object: " + fakeStoreProductDTO);
+        return fakeStoreProductDTO.getProduct();
     }
 
     @Override
@@ -29,7 +32,22 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public Product createProduct(Product product) {
-        return null;
+    public Product createProduct(Long id, String title, Double price, String description, String image, String category) {
+        FakeStoreProductDTO fakeStoreProductDTO = new FakeStoreProductDTO();
+        fakeStoreProductDTO.setId(id);
+        fakeStoreProductDTO.setTitle(title);
+        fakeStoreProductDTO.setPrice(price);
+        fakeStoreProductDTO.setDescription(description);
+        fakeStoreProductDTO.setImage(image);
+        fakeStoreProductDTO.setCategory(category);
+
+        System.out.println("Object: " + fakeStoreProductDTO);
+
+        FakeStoreProductDTO response = restTemplate.postForObject(
+                "https://fakestoreapi.com/products/",
+                fakeStoreProductDTO,
+                FakeStoreProductDTO.class
+        );
+        return response.getProduct();
     }
 }
