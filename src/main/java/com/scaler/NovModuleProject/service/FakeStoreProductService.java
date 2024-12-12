@@ -1,5 +1,6 @@
 package com.scaler.NovModuleProject.service;
 
+import com.scaler.NovModuleProject.dto.FakeStoreProductDTO;
 import com.scaler.NovModuleProject.models.Product;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -17,7 +18,9 @@ public class FakeStoreProductService implements ProductService {
 
     @Override
     public Product getSingleProduct(Long id) {
-        return null;
+	FakeStoreProductDTO fakeStoreProductDTO = restTemplate.getForObject("https://fakestoreapi.com/products/" + id, FakeStoreProductDTO.class);
+	System.out.println("Object: " + fakeStoreProductDTO);
+	return fakeStoreProductDTO.getProduct();
     }
 
     @Override
