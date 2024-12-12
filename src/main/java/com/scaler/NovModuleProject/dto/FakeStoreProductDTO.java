@@ -14,51 +14,51 @@ public class FakeStoreProductDTO {
     private String category;
 
     public Long getId() {
-	return id;
+        return id;
     }
 
     public void setId(Long id) {
-	this.id = id;
+        this.id = id;
     }
 
     public String getTitle() {
-	return title;
+        return title;
     }
 
     public void setTitle(String title) {
-	this.title = title;
+        this.title = title;
     }
 
     public Double getPrice() {
-	return price;
+        return price;
     }
 
     public void setPrice(Double price) {
-	this.price = price;
+        this.price = price;
     }
 
     public String getDescription() {
-	return description;
+        return description;
     }
 
     public void setDescription(String description) {
-	this.description = description;
+        this.description = description;
     }
 
     public String getImage() {
-	return image;
+        return image;
     }
 
     public void setImage(String image) {
-	this.image = image;
+        this.image = image;
     }
 
     public String getCategory() {
-	return category;
+        return category;
     }
 
     public void setCategory(String category) {
-	this.category = category;
+        this.category = category;
     }
 
     // Map the FakeStore Product to Product model
@@ -78,7 +78,13 @@ public class FakeStoreProductDTO {
 
     @Override
     public String toString() {
-	return "{id="+id+"\n,title="+title+"\n,price="+price+"\n,description="+description+"\n,image="+image+"\n,category="+category+"}\n";
+        return "FakeStoreProductDTO{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", image='" + image + '\'' +
+                ", category='" + category + '\'' +
+                '}';
     }
-
 }
