@@ -33,6 +33,11 @@ public class ProductController {
         return productService.getSingleProduct(id);
     }
 
+    @GetMapping("/product")
+    public List<Product> getProducts() {
+        return productService.getAllProducts();
+    }
+
     public void updateProduct(Product product) {}
 
     public void deleteProduct(Long id) {}
