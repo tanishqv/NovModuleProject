@@ -40,8 +40,8 @@ public class ProductController {
     }
 
     @PutMapping("/product/{id}")
-    public void updateProduct(@PathVariable Long id, @RequestBody Product product) {
-        productService.updateProduct(
+    public ResponseEntity<Object> updateProduct(@PathVariable Long id, @RequestBody Product product) {
+        return productService.updateProduct(
                 id,
                 product.getTitle(),
                 product.getPrice(),
