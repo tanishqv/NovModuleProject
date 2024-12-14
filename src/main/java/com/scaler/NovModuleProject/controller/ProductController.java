@@ -4,6 +4,7 @@ import com.scaler.NovModuleProject.dto.ErrorDTO;
 import com.scaler.NovModuleProject.exceptions.ProductNotFoundException;
 import com.scaler.NovModuleProject.models.Product;
 import com.scaler.NovModuleProject.service.ProductService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,12 +33,12 @@ public class ProductController {
     }
 
     @GetMapping("/product/{id}")
-    public Product getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
+    public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
         return productService.getSingleProduct(id);
     }
 
     @GetMapping("/product")
-    public List<Product> getProducts() {
+    public ResponseEntity<List<Product>> getProducts() {
         return productService.getAllProducts();
     }
 
@@ -60,9 +61,9 @@ public class ProductController {
 
 
     @ExceptionHandler(ProductNotFoundException.class)
-    public ErrorDTO handleProductNotFoundException(Exception e) {
+    public ResponseEntity<ErrorDTO> handleProductNotFoundException(Exception e) {
         ErrorDTO errorDTO = new ErrorDTO();
         errorDTO.setMessage(e.getMessage());
-        return errorDTO;
+        return new ResponseEntity<>(errorDTO, HttpStatus.NOT_FOUND);
     }
 }

@@ -21,7 +21,7 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public Product getSingleProduct(Long id) throws ProductNotFoundException {
+    public ResponseEntity<Product> getSingleProduct(Long id) throws ProductNotFoundException {
         FakeStoreProductDTO fakeStoreProductDTO = restTemplate.getForObject(
                 "https://fakestoreapi.com/products/" + id,
                 FakeStoreProductDTO.class
@@ -32,11 +32,11 @@ public class FakeStoreProductService implements ProductService {
         }
 
         System.out.println("Object: " + fakeStoreProductDTO);
-        return fakeStoreProductDTO.getProduct();
+        return new ResponseEntity<>(fakeStoreProductDTO.getProduct(), HttpStatus.OK);
     }
 
     @Override
-    public List<Product> getAllProducts() {
+    public ResponseEntity<List<Product>> getAllProducts() {
         FakeStoreProductDTO[] fakeStoreProductDTOs = restTemplate.getForObject(
                 "https://fakestoreapi.com/products",
                 FakeStoreProductDTO[].class
@@ -47,7 +47,7 @@ public class FakeStoreProductService implements ProductService {
             products.add(productDTO.getProduct());
         }
 
-        return products;
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @Override
