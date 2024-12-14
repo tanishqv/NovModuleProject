@@ -2,6 +2,7 @@ package com.scaler.NovModuleProject.controller;
 
 import com.scaler.NovModuleProject.models.Product;
 import com.scaler.NovModuleProject.service.ProductService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,7 +39,17 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
-    public void updateProduct(Product product) {}
+    @PutMapping("/product/{id}")
+    public void updateProduct(@PathVariable Long id, @RequestBody Product product) {
+        productService.updateProduct(
+                id,
+                product.getTitle(),
+                product.getPrice(),
+                product.getDescription(),
+                product.getImageUrl(),
+                product.getCategory().getTitle()
+        );
+    }
 
     public void deleteProduct(Long id) {}
 }

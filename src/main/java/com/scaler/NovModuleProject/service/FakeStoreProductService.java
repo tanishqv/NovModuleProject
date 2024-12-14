@@ -62,4 +62,22 @@ public class FakeStoreProductService implements ProductService {
         );
         return response.getProduct();
     }
+
+    @Override
+    public void updateProduct(Long id, String title, Double price, String description, String image, String category) {
+        FakeStoreProductDTO fakeStoreProductDTO = new FakeStoreProductDTO();
+        fakeStoreProductDTO.setTitle(title);
+        fakeStoreProductDTO.setPrice(price);
+        fakeStoreProductDTO.setDescription(description);
+        fakeStoreProductDTO.setImage(image);
+        fakeStoreProductDTO.setCategory(category);
+
+        System.out.println("Object: " + fakeStoreProductDTO);
+
+        restTemplate.put(
+                "https://fakestoreapi.com/products/" + id,
+                fakeStoreProductDTO
+        );
+	System.out.println("PUT request sent");
+    }
 }

@@ -8,4 +8,5 @@ public interface ProductService {
     Product getSingleProduct(Long id);
     List<Product> getAllProducts();
     Product createProduct(Long id, String title, Double price, String description, String image, String category);
+    void updateProduct(Long id, String title, Double price, String description, String image, String category);
 }
