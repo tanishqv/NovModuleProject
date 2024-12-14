@@ -10,4 +10,5 @@ public interface ProductService {
     List<Product> getAllProducts();
     Product createProduct(Long id, String title, Double price, String description, String image, String category);
     ResponseEntity<Object> updateProduct(Long id, String title, Double price, String description, String image, String category);
+    ResponseEntity<Object> deleteProductById(Long id);
 }

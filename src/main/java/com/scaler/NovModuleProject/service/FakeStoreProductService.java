@@ -83,4 +83,12 @@ public class FakeStoreProductService implements ProductService {
         );
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
 	}
+
+    @Override
+    public ResponseEntity<Object> deleteProductById(Long id) {
+        restTemplate.delete(
+                "https://fakestoreapi.com/products/" + id
+        );
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
