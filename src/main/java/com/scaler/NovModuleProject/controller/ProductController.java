@@ -21,8 +21,8 @@ public class ProductController {
 
     // CRUD Operations
     @PostMapping("/product")
-    public Product createProduct(@RequestBody Product product) {
-        return productService.createProduct(
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+        Product newProduct = productService.createProduct(
                 product.getId(),
                 product.getTitle(),
                 product.getPrice(),
@@ -30,21 +30,24 @@ public class ProductController {
                 product.getImageUrl(),
                 product.getCategory().getTitle()
         );
+        return new ResponseEntity<>(newProduct, HttpStatus.CREATED);
     }
 
     @GetMapping("/product/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
-        return productService.getSingleProduct(id);
+        Product product = productService.getSingleProduct(id);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @GetMapping("/product")
-    public ResponseEntity<List<Product>> getProducts() {
-        return productService.getAllProducts();
+    public ResponseEntity<List<Product>> getProducts() throws ProductNotFoundException {
+        List<Product> products = productService.getAllProducts();
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @PutMapping("/product/{id}")
-    public ResponseEntity<Object> updateProduct(@PathVariable Long id, @RequestBody Product product) {
-        return productService.updateProduct(
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product product) {
+        Product dataSent = productService.updateProduct(
                 id,
                 product.getTitle(),
                 product.getPrice(),
@@ -52,11 +55,18 @@ public class ProductController {
                 product.getImageUrl(),
                 product.getCategory().getTitle()
         );
+        return new ResponseEntity<>(dataSent, HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/product/{id}")
-    public ResponseEntity<Object> deleteProduct(@PathVariable Long id) {
-        return productService.deleteProductById(id);
+    public ResponseEntity<Product> deleteProduct(@PathVariable Long id) {
+        Product dataDeleted = productService.deleteProductById(id);
+
+        // HttpStatus.NO_CONTENT does not allow any request body to be sent as response
+        // hence, HttpStatus.OK has to be sent instead.
+
+        // return new ResponseEntity<>(dataDeleted, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(dataDeleted, HttpStatus.OK);
     }
 
 
