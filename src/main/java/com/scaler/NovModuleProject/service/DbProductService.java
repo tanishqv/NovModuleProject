@@ -63,12 +63,44 @@ public class DbProductService implements ProductService {
     }
 
     @Override
-    public Product updateProduct(Long id, String title, Double price, String description, String image, String category) {
-        return null;
+    public Product updateProduct(Long id, String title, Double price, String description, String image, String categoryTitle) throws ProductNotFoundException {
+        Optional<Product> product = productRepository.findById(id);
+        if (product.isPresent()) {
+            if (title != null) {
+                product.get().setTitle(title);
+            }
+            if (price != null) {
+                product.get().setPrice(price);
+            }
+            if (description != null) {
+                product.get().setDescription(description);
+            }
+            if (image != null) {
+                product.get().setImageUrl(image);
+            }
+            if (categoryTitle != null) {
+                System.out.println("Got categoryTitle=" + categoryTitle);
+                Optional<Category> currCategory = categoryRepository.findByTitle(categoryTitle);
+                if (currCategory.isEmpty()) {
+                    System.out.println("Creating new category with " + categoryTitle);
+                    Category newCategory = new Category();
+                    newCategory.setTitle(categoryTitle);
+                    Category newRow = categoryRepository.save(newCategory);
+                    product.get().setCategory(newRow);
+                }
+            }
+            return productRepository.save(product.get());
+        }
+        throw new ProductNotFoundException("Product not found with id=" + id);
     }
 
     @Override
     public Product deleteProductById(Long id) throws ProductNotFoundException {
-        return null;
+        Optional<Product> product = productRepository.findById(id);
+        if (product.isPresent()) {
+            productRepository.deleteById(id);
+            return product.get();
+        }
+        throw new ProductNotFoundException("Product not found with id=" + id);
     }
 }

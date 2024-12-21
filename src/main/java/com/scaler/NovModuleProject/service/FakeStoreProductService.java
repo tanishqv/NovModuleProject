@@ -76,7 +76,7 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public Product updateProduct(Long id, String title, Double price, String description, String image, String category) {
+    public Product updateProduct(Long id, String title, Double price, String description, String image, String category) throws ProductNotFoundException {
         FakeStoreProductDTO fakeStoreProductDTO = new FakeStoreProductDTO();
         fakeStoreProductDTO.setTitle(title);
         fakeStoreProductDTO.setPrice(price);
