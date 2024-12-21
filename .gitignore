@@ -34,3 +34,6 @@ build/
 
 ### Executables ###
 mvnw
+
+### Configuration secrets
+application.properties
