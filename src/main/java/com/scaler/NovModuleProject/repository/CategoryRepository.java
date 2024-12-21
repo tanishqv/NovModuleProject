@@ -8,9 +8,10 @@ import java.util.Optional;
 public interface CategoryRepository extends JpaRepository<Category, Long> {
     // Save/Update
     Category save(Category category);
+
     // get
     Optional<Category> findByTitle(String title);
-    // update
 
     // delete
+    void deleteById(Long id);
 }
