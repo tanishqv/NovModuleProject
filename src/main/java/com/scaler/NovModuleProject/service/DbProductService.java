@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
-@Service
+@Service("dbProductService")
 public class DbProductService implements ProductService {
 
     ProductRepository productRepository;
