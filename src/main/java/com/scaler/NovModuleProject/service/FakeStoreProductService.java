@@ -98,7 +98,7 @@ public class FakeStoreProductService implements ProductService {
 	}
 
     @Override
-    public Product deleteProductById(Long id) {
+    public Product deleteProductById(Long id) throws ProductNotFoundException {
         ResponseEntity<FakeStoreProductDTO> response = restTemplate.exchange(
                 "https://fakestoreapi.com/products/" + id,
                 HttpMethod.DELETE,
@@ -107,6 +107,10 @@ public class FakeStoreProductService implements ProductService {
         );
         System.out.println("response:" + response);
 
-        return response.getBody().getProduct();
+        FakeStoreProductDTO fakeStoreProductDTO = response.getBody();
+        if (fakeStoreProductDTO == null) {
+            throw new ProductNotFoundException("Product not found with id=" + id);
+        }
+        return fakeStoreProductDTO.getProduct();
     }
 }

@@ -59,7 +59,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/product/{id}")
-    public ResponseEntity<Product> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<Product> deleteProduct(@PathVariable Long id) throws ProductNotFoundException {
         Product dataDeleted = productService.deleteProductById(id);
 
         // HttpStatus.NO_CONTENT does not allow any request body to be sent as response
