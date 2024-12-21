@@ -7,10 +7,16 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    // Save
-    // Get
-    // Get all
-    // delete
-    // update
+    // Save/Update
+    Product save(Product product);
 
+    // Get
+    Optional<Product> findById(Long id);
+    Product findByTitle(String title);
+
+    // Get all
+    List<Product> findAll();
+
+    // delete
+    void deleteById(Long id);
 }
