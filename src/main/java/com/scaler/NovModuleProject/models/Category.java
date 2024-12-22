@@ -1,5 +1,6 @@
 package com.scaler.NovModuleProject.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
@@ -13,9 +14,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Category extends BaseModel{
+public class Category extends BaseModel {
     private String title;
 //    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
-    @ToString.Exclude List<Product> products;
+    @ToString.Exclude @JsonIgnore List<Product> products;
 }
