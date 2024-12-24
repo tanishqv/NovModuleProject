@@ -1,7 +1,6 @@
 package com.scaler.NovModuleProject.projections;
 
 import com.scaler.NovModuleProject.models.Category;
-import jakarta.persistence.ManyToOne;
 
 public interface ProductProjection {
     Long getId();
