@@ -23,13 +23,13 @@ public class FakeStoreCategoryController {
         this.fsCategoryService = fsCategoryService;
     }
 
-    @GetMapping("/category")
+    @GetMapping("/fs/category")
     public ResponseEntity<List<String>> getAllCategories() throws CategoryNotFoundException {
         List<String> categories = fsCategoryService.getAllCategories();
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
-    @GetMapping("/category/{title}/products")
+    @GetMapping("/fs/category/{categoryTitle}/products")
     public ResponseEntity<List<Product>> getProductsByCategoryTitle(@PathVariable String categoryTitle) throws ProductNotFoundException {
         List<Product> products = fsCategoryService.getProductsByCategoryTitle(categoryTitle);
         return new ResponseEntity<>(products, HttpStatus.OK);

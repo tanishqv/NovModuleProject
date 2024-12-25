@@ -3,7 +3,6 @@ package com.scaler.NovModuleProject.service;
 import com.scaler.NovModuleProject.dto.FakeStoreProductDTO;
 import com.scaler.NovModuleProject.exceptions.CategoryNotFoundException;
 import com.scaler.NovModuleProject.exceptions.ProductNotFoundException;
-import com.scaler.NovModuleProject.models.Category;
 import com.scaler.NovModuleProject.models.Product;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
