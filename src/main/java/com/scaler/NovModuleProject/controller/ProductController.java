@@ -16,7 +16,7 @@ public class ProductController {
     // DI for ProductService
     private ProductService productService;
 
-    public ProductController(@Qualifier("dbProductService") ProductService productService) {
+    public ProductController(@Qualifier("fakeStoreProductService") ProductService productService) {
         this.productService = productService;
     }
 
