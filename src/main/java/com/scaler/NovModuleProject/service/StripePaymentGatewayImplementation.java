@@ -32,6 +32,16 @@ public class StripePaymentGatewayImplementation implements PaymentService {
                                 .setQuantity(1L)
                                 .build()
                 )
+                .setAfterCompletion(
+                        PaymentLinkCreateParams.AfterCompletion.builder()
+                                .setType(PaymentLinkCreateParams.AfterCompletion.Type.REDIRECT)
+                                .setRedirect(
+                                        PaymentLinkCreateParams.AfterCompletion.Redirect.builder()
+                                                .setUrl("https://www.google.com/search?q=payment+done+website")
+                                                .build()
+                                )
+                                .build()
+                )
                 .build();
 
         return PaymentLink.create(linkParams).getUrl();
