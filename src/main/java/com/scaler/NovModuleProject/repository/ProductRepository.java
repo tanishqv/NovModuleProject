@@ -2,6 +2,8 @@ package com.scaler.NovModuleProject.repository;
 
 import com.scaler.NovModuleProject.models.Product;
 import com.scaler.NovModuleProject.projections.ProductProjection;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -29,7 +31,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<ProductProjection> findProductTitleAndIdByCategoryIdUsingProjections(@Param("categoryId") Long categoryId);
 
     // Get all
-    List<Product> findAll();
+    Page<Product> findAll(Pageable pageable);
 
     // Delete
     void deleteById(Long id);

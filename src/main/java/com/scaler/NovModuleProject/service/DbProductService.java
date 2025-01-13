@@ -6,9 +6,11 @@ import com.scaler.NovModuleProject.models.Product;
 import com.scaler.NovModuleProject.repository.CategoryRepository;
 import com.scaler.NovModuleProject.repository.ProductRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -29,8 +31,13 @@ public class DbProductService implements ProductService {
     }
 
     @Override
-    public List<Product> getAllProducts() throws ProductNotFoundException {
-        List<Product> products = productRepository.findAll();
+    public Page<Product> getAllProducts(Integer pageNum, Integer pageSize, String fieldName, Boolean sortAscending) throws ProductNotFoundException {
+        Page<Product> products;
+        if (sortAscending) {
+            products = productRepository.findAll(PageRequest.of(pageNum, pageSize, Sort.by(fieldName).ascending()));
+        } else {
+            products = productRepository.findAll(PageRequest.of(pageNum, pageSize, Sort.by(fieldName).descending()));
+        }
 
         if (!products.isEmpty()) {
             return products;

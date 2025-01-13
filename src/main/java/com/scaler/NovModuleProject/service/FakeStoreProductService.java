@@ -3,12 +3,16 @@ package com.scaler.NovModuleProject.service;
 import com.scaler.NovModuleProject.dto.FakeStoreProductDTO;
 import com.scaler.NovModuleProject.exceptions.ProductNotFoundException;
 import com.scaler.NovModuleProject.models.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +41,7 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public List<Product> getAllProducts() throws ProductNotFoundException {
+    public Page<Product> getAllProducts(Integer pageNum, Integer pageSize, String fieldName, Boolean sortAscending) throws ProductNotFoundException {
         FakeStoreProductDTO[] fakeStoreProductDTOs = restTemplate.getForObject(
                 "https://fakestoreapi.com/products",
                 FakeStoreProductDTO[].class
@@ -52,7 +56,38 @@ public class FakeStoreProductService implements ProductService {
             products.add(productDTO.getProduct());
         }
 
-        return products;
+        // Implementing pagination from list of all fetched products
+        int start = Math.min(pageNum * pageSize, products.size());
+        int end = Math.min((pageNum + 1) * pageSize, products.size());
+
+        List<Product> paginatedProducts = products.subList(start, end);
+
+        try {
+            Field field = Product.class.getDeclaredField(fieldName);
+            field.setAccessible(true);
+
+            paginatedProducts.sort((p1, p2) -> {
+                try {
+                    Object val1 = field.get(p1);
+                    Object val2 = field.get(p2);
+
+                    if (val1 instanceof Comparable && val2 instanceof Comparable) {
+                        if (sortAscending) {
+                            return ((Comparable) val1).compareTo(val2);
+                        } else {
+                            return ((Comparable) val2).compareTo(val1);
+                        }
+                    } else {
+                        throw new IllegalArgumentException("Field " + fieldName + " not comparable");
+                    }
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException("Error accessing field " + fieldName, e);
+                }
+            });
+        } catch (NoSuchFieldException | RuntimeException e) {
+            System.out.println("Ignoring sort on the field " + fieldName + "\n" + e.getMessage());
+        }
+        return new PageImpl<>(paginatedProducts, PageRequest.of(pageNum, pageSize), products.size());
     }
 
     @Override
