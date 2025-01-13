@@ -1,6 +1,5 @@
 package com.scaler.NovModuleProject.controller;
 
-import com.scaler.NovModuleProject.dto.ErrorDTO;
 import com.scaler.NovModuleProject.exceptions.CategoryNotFoundException;
 import com.scaler.NovModuleProject.exceptions.DuplicateCategoryException;
 import com.scaler.NovModuleProject.models.Category;
@@ -36,19 +35,5 @@ public class CategoryController {
     public ResponseEntity<List<CategoryProjection>> getCategories() throws CategoryNotFoundException {
         List<CategoryProjection> categories = categoryService.getAllCategories();
         return new ResponseEntity<>(categories, HttpStatus.OK);
-    }
-
-    @ExceptionHandler(CategoryNotFoundException.class)
-    public ResponseEntity<ErrorDTO> handleCategoryNotFoundException(Exception e) {
-        ErrorDTO errorDTO = new ErrorDTO();
-        errorDTO.setMessage(e.getMessage());
-        return new ResponseEntity<>(errorDTO, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(DuplicateCategoryException.class)
-    public ResponseEntity<ErrorDTO> handleDuplicateCategoryException(Exception e) {
-        ErrorDTO errorDTO = new ErrorDTO();
-        errorDTO.setMessage(e.getMessage());
-        return new ResponseEntity<>(errorDTO, HttpStatus.CONFLICT);
     }
 }

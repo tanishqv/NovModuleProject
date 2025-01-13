@@ -1,6 +1,5 @@
 package com.scaler.NovModuleProject.controller;
 
-import com.scaler.NovModuleProject.dto.ErrorDTO;
 import com.scaler.NovModuleProject.exceptions.ProductNotFoundException;
 import com.scaler.NovModuleProject.models.Product;
 import com.scaler.NovModuleProject.service.ProductService;
@@ -10,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 public class ProductController {
@@ -74,13 +72,5 @@ public class ProductController {
 
         // return new ResponseEntity<>(dataDeleted, HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(dataDeleted, HttpStatus.OK);
-    }
-
-
-    @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<ErrorDTO> handleProductNotFoundException(Exception e) {
-        ErrorDTO errorDTO = new ErrorDTO();
-        errorDTO.setMessage(e.getMessage());
-        return new ResponseEntity<>(errorDTO, HttpStatus.NOT_FOUND);
     }
 }
