@@ -18,13 +18,6 @@ public class ControllerAdvice {
         return new ResponseEntity<>(errorDTO, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(CategoryNotFoundException.class)
-    public ResponseEntity<ErrorDTO> handleCategoryNotFoundException(Exception e) {
-        ErrorDTO errorDTO = new ErrorDTO();
-        errorDTO.setMessage(e.getMessage());
-        return new ResponseEntity<>(errorDTO, HttpStatus.NOT_FOUND);
-    }
-
     @ExceptionHandler(DuplicateCategoryException.class)
     public ResponseEntity<ErrorDTO> handleDuplicateCategoryException(Exception e) {
         ErrorDTO errorDTO = new ErrorDTO();

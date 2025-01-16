@@ -8,7 +8,7 @@ CREATE TABLE category
     CONSTRAINT pk_category PRIMARY KEY (id)
 );
 
-CREATE TABLE PRODUCT
+CREATE TABLE product
 (
     id            BIGINT NOT NULL,
     created_at    datetime NULL,
