@@ -4,6 +4,7 @@ import com.scaler.NovModuleProject.dto.FakeStoreProductDTO;
 import com.scaler.NovModuleProject.exceptions.CategoryNotFoundException;
 import com.scaler.NovModuleProject.exceptions.ProductNotFoundException;
 import com.scaler.NovModuleProject.models.Product;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -11,14 +12,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class FakeStoreCategoryService implements FSCategoryService {
 
     private RestTemplate restTemplate;
-
-    public FakeStoreCategoryService(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
 
     @Override
     public List<String> getAllCategories() throws CategoryNotFoundException {

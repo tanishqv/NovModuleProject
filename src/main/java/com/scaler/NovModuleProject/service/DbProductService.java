@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,14 +18,23 @@ import java.util.Optional;
 @Service("dbProductService")
 public class DbProductService implements ProductService {
 
-    ProductRepository productRepository;
-    CategoryRepository categoryRepository;
+    private ProductRepository productRepository;
+    private CategoryRepository categoryRepository;
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public Product getSingleProduct(Long id) throws ProductNotFoundException {
+        Product redisProduct = (Product) redisTemplate.opsForHash().get("Product", "Product_" + id);
+        if (redisProduct != null) {
+            // Cache Hit
+            return redisProduct;
+        }
+        // Cache miss
         Optional<Product> p = productRepository.findById(id);
 
         if (p.isPresent()) {
+            // Storing in cache
+            redisTemplate.opsForHash().put("Product", "Product_" + id, p);
             return p.get();
         }
         throw new ProductNotFoundException("Product not found in DB with id=" + id);

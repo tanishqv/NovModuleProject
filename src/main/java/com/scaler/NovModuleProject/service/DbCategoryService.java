@@ -5,24 +5,32 @@ import com.scaler.NovModuleProject.exceptions.DuplicateCategoryException;
 import com.scaler.NovModuleProject.models.Category;
 import com.scaler.NovModuleProject.projections.CategoryProjection;
 import com.scaler.NovModuleProject.repository.CategoryRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@AllArgsConstructor
 @Service
 public class DbCategoryService implements CategoryService {
 
-    CategoryRepository categoryRepository;
-
-    public DbCategoryService(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
+    private CategoryRepository categoryRepository;
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public Category getSingleCategory(Long id) throws CategoryNotFoundException {
+        Category redisCategory = (Category) redisTemplate.opsForHash().get("Category", "Category_" + id);
+        if (redisCategory != null) {
+            // Cache Hit
+            return redisCategory;
+        }
+        // Cache miss
         Optional<Category> category = categoryRepository.findById(id);
         if (category.isPresent()) {
+            // Storing in cache
+            redisTemplate.opsForHash().put("Category", "Category_" + id, category);
             return category.get();
         }
         throw new CategoryNotFoundException("Category not found in DB with id=" + id);
